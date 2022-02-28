@@ -1,0 +1,21 @@
+[package]
+name = "examples"
+version = "0.1.0"
+description = "Created with Anchor"
+edition = "2018"
+
+[lib]
+crate-type = ["cdylib", "lib"]
+name = "examples"
+
+[features]
+no-entrypoint = []
+no-idl = []
+no-log-ix-name = []
+cpi = ["no-entrypoint"]
+default = []
+
+[dependencies]
+anchor-lang = "0.20.1"
+vaults = {git = "https://github.com/sol-farm/tulipv2-sdk.git", rev = "f177113bc25d54ab503d0b451a47e9400ead8d5a"}
+common = {git = "https://github.com/sol-farm/tulipv2-sdk.git", rev = "f177113bc25d54ab503d0b451a47e9400ead8d5a"}
