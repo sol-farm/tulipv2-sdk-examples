@@ -12,6 +12,7 @@ import {
   deriveManagementAddress, deriveRaydiumUserStakeInfoAddress, deriveSharesMintAddress, deriveVaultAddress, deriveVaultPdaAddress, deriveWithdrawQueueAddress, deriveCompoundQueueAddress, deriveSerumTradeAccount, deriveSerumTradePdaAddress, deriveSerumTradeOpenOrdersAddress, deriveSerumFeeRecipientAddress, deriveTrackingAddress, deriveTrackingPdaAddress, deriveTrackingQueueAddress, findAssociatedStakeInfoAddress, deriveLendingPlatformAccountAddress, deriveLndingPlatformInformationAccountAddress, deriveLendingPlatformConfigDataAddress, deriveMangoAccountAddress, deriveOrcaUserFarmAddress, deriveEphemeralTrackingAddress,
   deriveQuarryVaultConfigDataAddress, deriveSunnyVaultAddress
 } from "../ts/utils";
+import { findProgramAddressSync } from '@project-serum/anchor/dist/cjs/utils/pubkey';
 describe('examples', () => {
   let provider = anchor.Provider.env();
   // Configure the client to use the local cluster.
@@ -21,7 +22,9 @@ describe('examples', () => {
 
   const programId = program.programId;
   const usdcv1Vault = new anchor.web3.PublicKey("3wPiV9inTGexMZjp6x5Amqwp2sRNtpSheG8Hbv2rgq8W");
+  const usdcv1VaultPda = new anchor.web3.PublicKey("14fdy6YXbhDgnVQz4VcgSGgUcZ35eE48SKDrfqF87NUP");
   const usdcv1SharesMint = new anchor.web3.PublicKey("Cvvh8nsKZet59nsDDo3orMa3rZnPWQhpgrMCVcRDRgip");
+  const usdcv1DepositQueue = new anchor.web3.PublicKey("36KtHLHxcGnrfEb2GLwPcbN9nHUkeoi3gd6rMQj8wwVj");
   const usdcTokenMint = new anchor.web3.PublicKey("EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v");
   const associatedTokenProgramId = new anchor.web3.PublicKey("ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL");
   const v2VaultsProgramId = new anchor.web3.PublicKey("TLPv2tuSVvn3fSk8RgW3yPddkp5oFivzZV3rA9hQxtX");
@@ -30,8 +33,10 @@ describe('examples', () => {
   let depositTrackingPda: anchor.web3.PublicKey;
   let depositTrackingQueueAccount: anchor.web3.PublicKey;
   let depositTrackingHoldAccount: anchor.web3.PublicKey;
+  
+  let yourUnderlyingTokenAccount: anchor.web3.PublicKey;
 
-  it('Is initialized!', async () => {
+  it('registers deposit tracking account', async () => {
     console.log("progrmaId ", programId)
     console.log("usdcv1 vault ", usdcv1Vault)
     console.log("provider", provider.wallet.publicKey)
@@ -55,8 +60,6 @@ describe('examples', () => {
       depositTrackingPda,
       usdcv1SharesMint,
     );
-
-
     const authority = provider.wallet;
     console.log("sending register deposit tracking account tx")
     let tx = await program.methods.registerDepositTrackingAccount().accounts({
@@ -74,21 +77,27 @@ describe('examples', () => {
       systemProgram: anchor.web3.SystemProgram.programId,
       vaultProgram: v2VaultsProgramId,
     }).signers().rpc();
-    //const tx = await program.rpc.registerDepositTrackingAccount({
-    //  authority: provider.wallet.publicKey,
-    //  vault: usdcv1Vault,
-    //  depositTrackingAcccount,
-    //  depositTrackingQueueAccount,
-    //  depositTrackingHoldAccount,
-    //  sharesMint: usdcv1SharesMint,
-    //  underlyingMint: usdcTokenMint,
-    //  depositTrackingPda,
-    //  tokenProgram: splToken.TOKEN_PROGRAM_ID,
-    //  associatedTokenProgram: associatedTokenProgramId,
-    //  rent: anchor.web3.SYSVAR_RENT_PUBKEY,
-    //  systemProgram: anchor.web3.SystemProgram.programId,
-    //  vaultProgram: v2VaultsProgramId,
-    //});
-    console.log("sent register deposit tracking accoutn tx ", tx);
+    console.log("sent register deposit tracking account tx ", tx);
   });
+  it('issues shares', async () => {
+    yourUnderlyingTokenAccount = await createAssociatedTokenAccount(
+      provider,
+      provider.wallet.publicKey,
+      usdcTokenMint,
+    );
+    let tx = await program.methods.issueShares(new anchor.BN(0)).accounts({
+        authority: provider.wallet.publicKey,
+        vault: usdcv1Vault,
+        depositTrackingAccount,
+        depositTrackingPda,
+        vaultPda: usdcv1VaultPda,
+        sharesMint: usdcv1SharesMint,
+        receivingSharesAccount: depositTrackingHoldAccount,
+        depositingUnderlyingAccount: yourUnderlyingTokenAccount,
+        vaultUnderlyingAccount: usdcv1DepositQueue,
+        systemProgram: anchor.web3.SystemProgram.programId,
+        vaultProgram: v2VaultsProgramId,
+        tokenProgram: splToken.TOKEN_PROGRAM_ID,
+    }).signers().rpc();
+  })
 });
