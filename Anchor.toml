@@ -90,7 +90,9 @@ program = "./deps/sunny/minter.so"
 [[test.genesis]]
 address = "TLPv2tuSVvn3fSk8RgW3yPddkp5oFivzZV3rA9hQxtX"
 program = "./deps/tulip/v2_vaults.so"
-
+[[test.genesis]]
+address = "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL"
+program = "./deps/associated_token.so"
 ##############
 # token mints
 ##############
@@ -1190,7 +1192,7 @@ address = "7XTtoiHfkYzjLDxKDMoaVYncmdBW1yLfphmisSbBrnuZ"
 filename = "deps/accounts/7XTtoiHfkYzjLDxKDMoaVYncmdBW1yLfphmisSbBrnuZ.json"
 [[test.validator.account]] # tulip_information_account
 address = "4QVuedVSCMLA3eQ643czUy95uQFxXKAcCMJ1ChpkVA2B"
-filename = "deps/accounts/.json"
+filename = "deps/accounts/4QVuedVSCMLA3eQ643czUy95uQFxXKAcCMJ1ChpkVA2B.json"
 [[test.validator.account]] # tulip_vault_collateral_token_account
 address = "2U6kk4iTVqeypBydVPKA8mLTLAQEBfWf4KYfmkcvomPE"
 filename = "deps/accounts/2U6kk4iTVqeypBydVPKA8mLTLAQEBfWf4KYfmkcvomPE.json"
