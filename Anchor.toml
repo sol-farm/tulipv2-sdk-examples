@@ -1116,10 +1116,120 @@ filename = "deps/accounts/C5z6oQDhXbPDrn8DSZXhvnnLb4JuZaEKop9QxQCvhDPr.json"
 address = "CbKFRziSAtpWQWxfiQyRfkMNDvxbR8SsZeuRbCh8aVn4"
 filename = "deps/accounts/CbKFRziSAtpWQWxfiQyRfkMNDvxbR8SsZeuRbCh8aVn4.json"
 
- name = "sunny_claim_fee_token_account"
+#name = "sunny_claim_fee_token_account"
 [[test.validator.account]]
 address = "4BF6M8M5V3yVQNfYLAAiunvazWBamcA6NQircUuEHCEa"
 filename = "deps/accounts/4BF6M8M5V3yVQNfYLAAiunvazWBamcA6NQircUuEHCEa.json"
+
+###############
+ 
+##############################
+# Tulip V2 USDCv1   Accounts #
+##############################
+
+
+[[test.validator.account]] # usdcv1_vault_account
+address = "3wPiV9inTGexMZjp6x5Amqwp2sRNtpSheG8Hbv2rgq8W"
+filename = "deps/accounts/3wPiV9inTGexMZjp6x5Amqwp2sRNtpSheG8Hbv2rgq8W.json"
+[[test.validator.account]] # usdcv1_shares_mint
+address = "Cvvh8nsKZet59nsDDo3orMa3rZnPWQhpgrMCVcRDRgip"
+filename = "deps/accounts/Cvvh8nsKZet59nsDDo3orMa3rZnPWQhpgrMCVcRDRgip.json"
+[[test.validator.account]] # usdcv1_compound_queue
+address = "FAr7Xouceyn9Ms7Egx4JUQryy3RQXuM27RVvCqH6X1o3"
+filename = "deps/accounts/FAr7Xouceyn9Ms7Egx4JUQryy3RQXuM27RVvCqH6X1o3.json"
+[[test.validator.account]] # underlying_deposit_queue
+address = "36KtHLHxcGnrfEb2GLwPcbN9nHUkeoi3gd6rMQj8wwVj"
+filename = "deps/accounts/36KtHLHxcGnrfEb2GLwPcbN9nHUkeoi3gd6rMQj8wwVj.json"
+[[test.validator.account]] # underlying_withdraw_queue
+address = "HLVcpKPkBJJJGTHTSaZcAixDppy4R65x1is3k8Q7qZpj"
+filename = "deps/accounts/HLVcpKPkBJJJGTHTSaZcAixDppy4R65x1is3k8Q7qZpj.json"
+[[test.validator.account]] # rebalance_state_transition
+address = "3Vjgd77xSaAeBX9DmtZ2Rw7EwVCqvb8aoPvDD7Z75HXP"
+filename = "deps/accounts/3Vjgd77xSaAeBX9DmtZ2Rw7EwVCqvb8aoPvDD7Z75HXP.json"
+[[test.validator.account]] # rebalance_state_transition_underlying
+address = "BBAcBhNSvGpHd4FHh1XF1VGpGjfeUDeNxxww9TRKra7r"
+filename = "deps/accounts/BBAcBhNSvGpHd4FHh1XF1VGpGjfeUDeNxxww9TRKra7r.json"
+[[test.validator.account]] # usdcv1_solend_optimizer_shares_account
+address = "UxVNZzzx3xRxKFAuGjRQgbDaa7mirSkFEAu7qiYQ1h4"
+filename = "deps/accounts/UxVNZzzx3xRxKFAuGjRQgbDaa7mirSkFEAu7qiYQ1h4.json"
+[[test.validator.account]] # usdcv1_tulip_optimizer_shares_account
+address = "M7akLS7xYVhp68LnMkBBCemvqkGcCycQ3qp7e3SsKR1"
+filename = "deps/accounts/M7akLS7xYVhp68LnMkBBCemvqkGcCycQ3qp7e3SsKR1.json"
+[[test.validator.account]] # usdcv1_mango_optimizer_shares_account
+address = "A9kM8NKf3v29F3DgRQ5Rw7TJoadFZZDfBGLRBGNzASrr"
+filename = "deps/accounts/A9kM8NKf3v29F3DgRQ5Rw7TJoadFZZDfBGLRBGNzASrr.json"
+[[test.validator.account]] # solend_vault_account
+address = "85JXjDiyianDpvz8y8efkRyFsxpnSJJpmyxrJ7bncKHM"
+filename = "deps/accounts/85JXjDiyianDpvz8y8efkRyFsxpnSJJpmyxrJ7bncKHM.json"
+[[test.validator.account]] # solend_config_data_account
+address = "6AzcPNmNWomkdMRgcZJPVAs4zF1jev9wqxzzzxVzDDsi"
+filename = "deps/accounts/6AzcPNmNWomkdMRgcZJPVAs4zF1jev9wqxzzzxVzDDsi.json"
+[[test.validator.account]] # solend_information_account
+address = "GRL5rtnvzCfQRdKJXkG2A8LvDSNXkbxENEnF4SwJ3pTF"
+filename = "deps/accounts/GRL5rtnvzCfQRdKJXkG2A8LvDSNXkbxENEnF4SwJ3pTF.json"
+[[test.validator.account]] # solend_vault_collateral_token_account
+address = "6EaiG2gRVu9u7QzVmX59AWLSmiaEYvMrKWQfPMCgNxsZ"
+filename = "deps/accounts/6EaiG2gRVu9u7QzVmX59AWLSmiaEYvMrKWQfPMCgNxsZ.json"
+[[test.validator.account]] # solend_shares_mint
+address = "CS8cJicaSpphTTboMJD1UeNpU7vpkZc86vKrtqzRVnG5"
+filename = "deps/accounts/CS8cJicaSpphTTboMJD1UeNpU7vpkZc86vKrtqzRVnG5.json"
+[[test.validator.account]] # solend_underlying_compound_queue
+address = "2KpoR9CquEuUTgVqFTtZi8nqrTA1YFsYmsHjp957YVcX"
+filename = "deps/accounts/2KpoR9CquEuUTgVqFTtZi8nqrTA1YFsYmsHjp957YVcX.json"
+[[test.validator.account]] # solend_underlying_deposit_queue
+address = "2Li9Q5Vx9BEnFTGJTLWc5pVqerYGjhgyGYzSAA2WhYKQ"
+filename = "deps/accounts/2Li9Q5Vx9BEnFTGJTLWc5pVqerYGjhgyGYzSAA2WhYKQ.json"
+[[test.validator.account]] # solend_underlying_withdraw_queue
+address = "BoGjVzrz2yhPRnFoj2QPPMLZTkptG7pESc3PyHDGV6WJ"
+filename = "deps/accounts/BoGjVzrz2yhPRnFoj2QPPMLZTkptG7pESc3PyHDGV6WJ.json"
+[[test.validator.account]] # tulip_vault_account
+address = "8KLrrsnUv3DjC9Q89xSQDVdiGLZHUEUuyPedfHrtuVRr"
+filename = "deps/accounts/8KLrrsnUv3DjC9Q89xSQDVdiGLZHUEUuyPedfHrtuVRr.json"
+[[test.validator.account]] # tulip_config_data_account
+address = "7XTtoiHfkYzjLDxKDMoaVYncmdBW1yLfphmisSbBrnuZ"
+filename = "deps/accounts/7XTtoiHfkYzjLDxKDMoaVYncmdBW1yLfphmisSbBrnuZ.json"
+[[test.validator.account]] # tulip_information_account
+address = "4QVuedVSCMLA3eQ643czUy95uQFxXKAcCMJ1ChpkVA2B"
+filename = "deps/accounts/.json"
+[[test.validator.account]] # tulip_vault_collateral_token_account
+address = "2U6kk4iTVqeypBydVPKA8mLTLAQEBfWf4KYfmkcvomPE"
+filename = "deps/accounts/2U6kk4iTVqeypBydVPKA8mLTLAQEBfWf4KYfmkcvomPE.json"
+[[test.validator.account]] # tulip_shares_mint
+address = "D2PLcwGR1wsXUPhb1BHysSVEsHVVCQ129qGpgXXaTNR1"
+filename = "deps/accounts/D2PLcwGR1wsXUPhb1BHysSVEsHVVCQ129qGpgXXaTNR1.json"
+[[test.validator.account]] # tulip_underlying_compound_queue
+address = "E9XiAr49FzCGeLHwLjz5H1AiPKWNodizA5e8So7zLmjz"
+filename = "deps/accounts/E9XiAr49FzCGeLHwLjz5H1AiPKWNodizA5e8So7zLmjz.json"
+[[test.validator.account]] # tulip_underlying_deposit_queue
+address = "8eDHmS15CWd8d88uckg6oKxrfwijZVudZsDgdtgGqS49"
+filename = "deps/accounts/8eDHmS15CWd8d88uckg6oKxrfwijZVudZsDgdtgGqS49.json"
+[[test.validator.account]] # tulip_underlying_withdraw_queue
+address = "AMdJL2UzEpd54a7wDqq6aV99ix6iXMHMmvs1w8CRs3Gc"
+filename = "deps/accounts/AMdJL2UzEpd54a7wDqq6aV99ix6iXMHMmvs1w8CRs3Gc.json"
+[[test.validator.account]] # mango_vault_account
+address = "ZH9GWNBtwxcWeU9kHk77DSciwQnoJcSm8VVvYfmHXfe"
+filename = "deps/accounts/ZH9GWNBtwxcWeU9kHk77DSciwQnoJcSm8VVvYfmHXfe.json"
+[[test.validator.account]] # mango_config_data_account
+address = "EecDX1xHrjKXQWbE5WtwU7fAiEkKxAv7w196oe8jaoqY"
+filename = "deps/accounts/EecDX1xHrjKXQWbE5WtwU7fAiEkKxAv7w196oe8jaoqY.json"
+[[test.validator.account]] # mango_information_account
+address = "GDzbqzebKTxJaQVfxfqejkqU4HLcBmgNBwun3rADvm8J"
+filename = "deps/accounts/GDzbqzebKTxJaQVfxfqejkqU4HLcBmgNBwun3rADvm8J.json"
+[[test.validator.account]] # mango_vault_optimizer_mango_account
+address = "3cZkd5eVyZhMhE8nJcR3rA7GgVQ6gCJt2qofr2GQd8ca"
+filename = "deps/accounts/3cZkd5eVyZhMhE8nJcR3rA7GgVQ6gCJt2qofr2GQd8ca.json"
+[[test.validator.account]] # mango_shares_mint
+address = "5u6jxB7En2LF5aroeq8U5JUbnHa5WSYB5JTemh3gYaMj"
+filename = "deps/accounts/5u6jxB7En2LF5aroeq8U5JUbnHa5WSYB5JTemh3gYaMj.json"
+[[test.validator.account]] # mango_underlying_compound_queue
+address = "D8DwEfi3sqr2MDaFzT2bsWHi4Sqy9gokXTkGgLqJ4imW"
+filename = "deps/accounts/D8DwEfi3sqr2MDaFzT2bsWHi4Sqy9gokXTkGgLqJ4imW.json"
+[[test.validator.account]] # mango_underlying_deposit_queue
+address = "3CnAyCjpA9mcxayed12cwJNGue7YbmyuBjpT9KN6meVT"
+filename = "deps/accounts/3CnAyCjpA9mcxayed12cwJNGue7YbmyuBjpT9KN6meVT.json"
+[[test.validator.account]] # mango_underlying_withdraw_queue
+address = "GFnGoQmW8HZzGpUVKPt7gSY8itvmeaTbAXJVYFTpbCTd"
+filename = "deps/accounts/GFnGoQmW8HZzGpUVKPt7gSY8itvmeaTbAXJVYFTpbCTd.json"
 
 ###############
 
