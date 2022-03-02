@@ -187,18 +187,18 @@ pub mod examples {
             AccountMeta::new_readonly(ctx.accounts.mango_group_account.key(), false),
             AccountMeta::new(ctx.accounts.withdraw_vault_mango_account.key(), false),
             AccountMeta::new_readonly(ctx.accounts.mango_cache.key(), false),
-            AccountMeta::new_readonly(ctx.accounts.root_bank.key(), false),
-            AccountMeta::new(ctx.accounts.node_bank.key(), false),
+            AccountMeta::new_readonly(ctx.accounts.mango_root_bank.key(), false),
+            AccountMeta::new(ctx.accounts.mango_node_bank.key(), false),
             AccountMeta::new(ctx.accounts.mango_token_account.key(), false),
             AccountMeta::new_readonly(ctx.accounts.mango_group_signer.key(), false),
-            AccountMeta::new(ctx.accounts.system_program.key(), false),
+            AccountMeta::new_readonly(ctx.accounts.system_program.key(), false),
         ];
         let ix = new_withdraw_multi_deposit_optimizer_vault_ix(
             ctx.accounts.common_data.authority.key(),
             ctx.accounts.common_data.multi_vault.key(),
             ctx.accounts.common_data.multi_vault_pda.key(),
             ctx.accounts.common_data.withdraw_vault.key(),
-            ctx.accounts.common_data.withdraw_vualt_pda.key(),
+            ctx.accounts.common_data.withdraw_vault_pda.key(),
             ctx.accounts.common_data.platform_information.key(),
             ctx.accounts.common_data.platform_config_data.key(),
             ctx.accounts.common_data.lending_program.key(),
@@ -218,6 +218,8 @@ pub mod examples {
                 ctx.accounts.common_data.authority.clone(),
                 ctx.accounts.common_data.multi_vault.clone(),
                 ctx.accounts.common_data.multi_vault_pda.clone(),
+                ctx.accounts.common_data.withdraw_vault.clone(),
+                ctx.accounts.common_data.withdraw_vault_pda.clone(),
                 ctx.accounts.common_data.platform_information.clone(),
                 ctx.accounts.common_data.platform_config_data.clone(),
                 ctx.accounts.common_data.lending_program.clone(),
@@ -231,11 +233,12 @@ pub mod examples {
                 ctx.accounts.mango_group_account.clone(),
                 ctx.accounts.withdraw_vault_mango_account.clone(),
                 ctx.accounts.mango_cache.clone(),
-                ctx.accounts.root_bank.clone(),
-                ctx.accounts.node_bank.clone(),
+                ctx.accounts.mango_root_bank.clone(),
+                ctx.accounts.mango_node_bank.clone(),
                 ctx.accounts.mango_token_account.to_account_info(),
                 ctx.accounts.mango_group_signer.clone(),
                 ctx.accounts.system_program.to_account_info(),
+                ctx.accounts.common_data.clock.to_account_info(),
             ],
         )?;
         Ok(())
@@ -260,7 +263,7 @@ pub mod examples {
             ctx.accounts.common_data.multi_vault.key(),
             ctx.accounts.common_data.multi_vault_pda.key(),
             ctx.accounts.common_data.withdraw_vault.key(),
-            ctx.accounts.common_data.withdraw_vualt_pda.key(),
+            ctx.accounts.common_data.withdraw_vault_pda.key(),
             ctx.accounts.common_data.platform_information.key(),
             ctx.accounts.common_data.platform_config_data.key(),
             ctx.accounts.common_data.lending_program.key(),
@@ -320,7 +323,7 @@ pub mod examples {
             ctx.accounts.common_data.multi_vault.key(),
             ctx.accounts.common_data.multi_vault_pda.key(),
             ctx.accounts.common_data.withdraw_vault.key(),
-            ctx.accounts.common_data.withdraw_vualt_pda.key(),
+            ctx.accounts.common_data.withdraw_vault_pda.key(),
             ctx.accounts.common_data.platform_information.key(),
             ctx.accounts.common_data.platform_config_data.key(),
             ctx.accounts.common_data.lending_program.key(),
@@ -456,16 +459,17 @@ pub struct WithdrawMultiDepositOptimizerVault<'info> {
     pub multi_vault_pda: AccountInfo<'info>,
     #[account(mut)]
     pub withdraw_vault: AccountInfo<'info>,
-    pub withdraw_vualt_pda: AccountInfo<'info>,
+    pub withdraw_vault_pda: AccountInfo<'info>,
     pub platform_information: AccountInfo<'info>,
     pub platform_config_data: AccountInfo<'info>,
     #[account(mut)]
-    /// the shares token account owned by the multi_vault_pda
-    /// that holds share tokens issued by the withdraw_vault.
+    /// this is the token account owned by the authority for the multi vault
+    /// shares mint, which are the tokens we are burning/redeeming in exchange
+    /// for the underlying asset
     pub multi_burning_shares_token_account: Box<Account<'info, TokenAccount>>,
     #[account(mut)]
-    /// this is the account owned by the authority we are withdrawing shares from to burn in order
-    /// to redeem them for the corresponding amount of underlying tokens.
+    /// this is the account owned by the multi vault pda that holds the tokenized
+    /// shares issued by the withdraw vault. 
     pub withdraw_burning_shares_token_account: Box<Account<'info, TokenAccount>>,
     #[account(mut)]
     /// this is the account owned by the authority which will receive the underlying
@@ -476,6 +480,7 @@ pub struct WithdrawMultiDepositOptimizerVault<'info> {
     pub multi_underlying_withdraw_queue: Box<Account<'info, TokenAccount>>,
     #[account(mut)]
     pub multi_shares_mint: Box<Account<'info, Mint>>,
+    #[account(mut)]
     pub withdraw_shares_mint: Box<Account<'info, Mint>>,
     #[account(mut)]
     /// this is the underlying token account owned by the withdraw vault we are
@@ -484,6 +489,7 @@ pub struct WithdrawMultiDepositOptimizerVault<'info> {
     pub clock: Sysvar<'info, Clock>,
     pub token_program: AccountInfo<'info>,
     pub lending_program: AccountInfo<'info>,
+    pub vault_program: AccountInfo<'info>,
 }
 
 #[derive(Accounts)]
@@ -495,9 +501,9 @@ pub struct WithdrawMangoMultiDepositOptimizerVault<'info> {
     #[account(mut)]
     pub withdraw_vault_mango_account: AccountInfo<'info>,
     pub mango_cache: AccountInfo<'info>,
-    pub root_bank: AccountInfo<'info>,
+    pub mango_root_bank: AccountInfo<'info>,
     #[account(mut)]
-    pub node_bank: AccountInfo<'info>,
+    pub mango_node_bank: AccountInfo<'info>,
     #[account(mut)]
     pub mango_token_account: Box<Account<'info, TokenAccount>>,
     pub mango_group_signer: AccountInfo<'info>,
