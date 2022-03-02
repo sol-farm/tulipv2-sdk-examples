@@ -214,11 +214,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "8da52d66c7071e2e3fa2a1e5c6d088fec47b593032b254f5e980de8ea54454d6"
 
 [[package]]
-name = "arrform"
-version = "0.1.1"
-source = "git+https://github.com/sol-farm/arrform.git?rev=fdbb0cfe18eadbff99cc8cd63f1b5a43df70e665#fdbb0cfe18eadbff99cc8cd63f1b5a43df70e665"
-
-[[package]]
 name = "atty"
 version = "0.2.14"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -413,23 +408,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "baf1de4339761588bc0619e3cbc0120ee582ebb74b53b4efbf79117bd2da40fd"
 
 [[package]]
-name = "common"
-version = "0.1.0"
-source = "git+https://github.com/sol-farm/tulipv2-sdk.git?rev=cca1daa7d98bd661dc9d398dc72bb9dcf3208c66#cca1daa7d98bd661dc9d398dc72bb9dcf3208c66"
-dependencies = [
- "anchor-lang",
- "anchor-spl",
- "arrform",
- "farms",
- "num-derive",
- "num-traits",
- "spl-token",
- "static-pubkey",
- "thiserror",
- "uint",
-]
-
-[[package]]
 name = "console_error_panic_hook"
 version = "0.1.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -504,27 +482,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "demo"
-version = "0.1.0"
-dependencies = [
- "anchor-lang",
- "anchor-spl",
- "common",
- "examples",
- "vaults",
-]
-
-[[package]]
-name = "derivative"
-version = "2.2.1"
-source = "git+https://github.com/sol-farm/rust-derivative.git?rev=ff66e36f57d14c0a910e77d6e7f4d3dae307de7e#ff66e36f57d14c0a910e77d6e7f4d3dae307de7e"
-dependencies = [
- "proc-macro2",
- "quote",
- "syn",
-]
-
-[[package]]
 name = "digest"
 version = "0.9.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -569,18 +526,9 @@ version = "0.1.0"
 dependencies = [
  "anchor-lang",
  "anchor-spl",
- "common",
  "spl-associated-token-account",
- "vaults",
-]
-
-[[package]]
-name = "farms"
-version = "0.1.0"
-source = "git+https://github.com/sol-farm/tulipv2-sdk.git?rev=cca1daa7d98bd661dc9d398dc72bb9dcf3208c66#cca1daa7d98bd661dc9d398dc72bb9dcf3208c66"
-dependencies = [
- "anchor-lang",
- "arrform",
+ "tulipv2-sdk-common",
+ "tulipv2-sdk-vaults",
 ]
 
 [[package]]
@@ -1327,6 +1275,70 @@ dependencies = [
 ]
 
 [[package]]
+name = "tulip-arrform"
+version = "0.1.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b6f4c70c8fe82613e0a32b00a3eab2557ec5dd110bddf471ace19de8fd4577d0"
+
+[[package]]
+name = "tulip-derivative"
+version = "2.2.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "75d6eabea9d108df2d23d7f1201de4f7d2bceebe0dda5fa05bcef95a5ff4deaf"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn",
+]
+
+[[package]]
+name = "tulipv2-sdk-common"
+version = "0.9.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f586a8486701a6ddd2a8c6d6ef9d6cd1ce53cfb4529aa8cde322cb0385ca461b"
+dependencies = [
+ "anchor-lang",
+ "anchor-spl",
+ "num-derive",
+ "num-traits",
+ "spl-token",
+ "static-pubkey",
+ "thiserror",
+ "tulip-arrform",
+ "tulipv2-sdk-farms",
+ "uint",
+]
+
+[[package]]
+name = "tulipv2-sdk-farms"
+version = "0.9.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "59bee7a14b57271aca65052cc6c439826a022ee76479733712a4d3b719e5586a"
+dependencies = [
+ "anchor-lang",
+ "tulip-arrform",
+]
+
+[[package]]
+name = "tulipv2-sdk-vaults"
+version = "0.9.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "016f51b0b435f27bd00a874bb6f633982ed0316a19248e6b4619931983750ddc"
+dependencies = [
+ "anchor-lang",
+ "anchor-spl",
+ "itertools",
+ "spl-associated-token-account",
+ "spl-token",
+ "static-pubkey",
+ "tulip-arrform",
+ "tulip-derivative",
+ "tulipv2-sdk-common",
+ "tulipv2-sdk-farms",
+ "type-layout",
+]
+
+[[package]]
 name = "type-layout"
 version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1376,24 +1388,6 @@ name = "unicode-xid"
 version = "0.2.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "8ccb82d61f80a663efe1f787a51b16b5a51e3314d6ac365b08639f52387b33f3"
-
-[[package]]
-name = "vaults"
-version = "0.1.0"
-source = "git+https://github.com/sol-farm/tulipv2-sdk.git?rev=cca1daa7d98bd661dc9d398dc72bb9dcf3208c66#cca1daa7d98bd661dc9d398dc72bb9dcf3208c66"
-dependencies = [
- "anchor-lang",
- "anchor-spl",
- "arrform",
- "common",
- "derivative",
- "farms",
- "itertools",
- "spl-associated-token-account",
- "spl-token",
- "static-pubkey",
- "type-layout",
-]
 
 [[package]]
 name = "version_check"

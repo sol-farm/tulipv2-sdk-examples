@@ -49,6 +49,37 @@ describe('examples', () => {
   const mangoGroupSigner = new anchor.web3.PublicKey("9BVcYqEQxyccuwznvxXqDkSJFavvTyheiTYk231T1A8S")
   const mangoProgramId = new anchor.web3.PublicKey("mv3ekLzLbnVPNxjSKvqBpU3ZeZXPQdEC3bp5MDEBG68");
   
+  const solendVault = new anchor.web3.PublicKey("85JXjDiyianDpvz8y8efkRyFsxpnSJJpmyxrJ7bncKHM");
+  const solendVaultPda = new anchor.web3.PublicKey("963HGaUjwGqvqwwqwJZayUXvCC21AAqZU5SLw1kU4gVc");
+  const solendVaultSharesMint = new anchor.web3.PublicKey("CS8cJicaSpphTTboMJD1UeNpU7vpkZc86vKrtqzRVnG5");
+  const solendVaultPlatformInformation = new anchor.web3.PublicKey("GRL5rtnvzCfQRdKJXkG2A8LvDSNXkbxENEnF4SwJ3pTF");
+  const solendVaultPlatformConfigDataAccount = new anchor.web3.PublicKey("6AzcPNmNWomkdMRgcZJPVAs4zF1jev9wqxzzzxVzDDsi");
+  const solendVaultDepositQueue = new anchor.web3.PublicKey("2Li9Q5Vx9BEnFTGJTLWc5pVqerYGjhgyGYzSAA2WhYKQ");
+  const solendReserveAccount = new anchor.web3.PublicKey("BgxfHJDzm44T7XG68MYKx7YisTjZu73tVovyZSjJMpmw")
+  const solendReserveLiquiditySupply = new anchor.web3.PublicKey("8SheGtsopRUDzdiD6v6BR9a6bqZ9QwywYQY99Fp5meNf")
+  const solendReserveCollateralMint = new anchor.web3.PublicKey("993dVFL2uXWYeoXuEBFXR4BijeXdTv4s6BzsCjJZuwqk")
+  const solendLendingMarketAccount = new anchor.web3.PublicKey("4UpD2fh7xH3VP9QQaXtsS1YY3bxzWhtfpks7FatyKvdY")
+  const solendDerivedLendingMarketAuthority = new anchor.web3.PublicKey("DdZR6zRFiUt4S5mg7AV1uKB2z1f1WzcNYCaTEEWPAuby")
+  const solendReservePythPriceAccount = new anchor.web3.PublicKey("Gnt27xtC473ZT2Mw5u8wZ68Z3gULkSTb5DuxJy7eJotD")
+  const solendReserveSwitchboardPriceAccount = new anchor.web3.PublicKey("CZx29wKMUxaJDq6aLVQTdViPL754tTR64NAgQBUGxxHb")
+  const solendProgramId = new anchor.web3.PublicKey("So1endDq2YkqhipRh3WViPa8hdiSpxWy6z3Z6tMCpAo");
+
+
+  const tulipVault = new anchor.web3.PublicKey("8KLrrsnUv3DjC9Q89xSQDVdiGLZHUEUuyPedfHrtuVRr")
+  const tulipVaultPda = new anchor.web3.PublicKey("mrT9Q45iuC2HLYxpceaQFjzcAgd6Trks7bXAGbKYpwL")
+  const tulipVaultSharesMint = new anchor.web3.PublicKey("D2PLcwGR1wsXUPhb1BHysSVEsHVVCQ129qGpgXXaTNR1")
+  const tulipVaultPlatformInformation = new anchor.web3.PublicKey("4QVuedVSCMLA3eQ643czUy95uQFxXKAcCMJ1ChpkVA2B")
+  const tulipVaultPlatformConfigDataAccount = new anchor.web3.PublicKey("7XTtoiHfkYzjLDxKDMoaVYncmdBW1yLfphmisSbBrnuZ")
+  const tulipVaultDepositQueue = new anchor.web3.PublicKey("8eDHmS15CWd8d88uckg6oKxrfwijZVudZsDgdtgGqS49")
+  const tulipReserveAccount = new anchor.web3.PublicKey("FTkSmGsJ3ZqDSHdcnY7ejN1pWV3Ej7i88MYpZyyaqgGt")
+  const tulipReserveLiquiditySupply = new anchor.web3.PublicKey("64QJd6MYXUjCBvCaZKaqxiKmaMkPUdNonE1KuY1YoGGb")
+  const tulipReserveCollateralMint = new anchor.web3.PublicKey("Amig8TisuLpzun8XyGfC5HJHHGUQEscjLgoTWsCCKihg")
+  const tulipLendingMarketAccount = new anchor.web3.PublicKey("D1cqtVThyebK9KXKGXrCEuiqaNf5L4UfM1vHgCqiJxym")
+  const tulipDerivedLendingMarketAuthority = new anchor.web3.PublicKey("8gEGZbUfVE1poBq71VHKX9LU7ca4x8wTUyZgcbyQe51s")
+  const tulipReservePythPriceAccount = new anchor.web3.PublicKey("ExzpbWgczTgd8J58BrnESndmzBkRVfc6PhFjSGiQXgAB")
+  const tulipProgramId = new anchor.web3.PublicKey("4bcFeLv4nydFrsZqV5CgwCVrPhkQKsXtzfy2KyMz7ozM")
+
+
   let depositTrackingAccount: anchor.web3.PublicKey;
   let depositTrackingPda: anchor.web3.PublicKey;
   let depositTrackingQueueAccount: anchor.web3.PublicKey;
@@ -169,6 +200,69 @@ describe('examples', () => {
       mangoGroupAccount,
       mangoTokenAccount,
       mangoGroupSigner,
+      systemProgram: anchor.web3.SystemProgram.programId,
+    }).signers().rpc();
+  })
+  it("withdraws multi deposit vault through solend", async() => {
+    let tx = await program.methods.withdrawMultiDepositVaultThroughSolend(new anchor.BN(0)).accounts({
+      commonData: {
+        authority: provider.wallet.publicKey,
+        multiVault: usdcv1Vault,
+        multiVaultPda: usdcv1VaultPda,
+        withdrawVault: solendVault,
+        withdrawVaultPda: solendVaultPda,
+        platformInformation: solendVaultPlatformInformation,
+        platformConfigData: solendVaultPlatformConfigDataAccount,
+        multiBurningSharesTokenAccount: yourSharesTokenAccount,
+        withdrawBurningSharesTokenAccount: usdcv1SolendVaultSharesAccount,
+        receivingUnderlyingTokenAccount: yourUnderlyingTokenAccount,
+        multiUnderlyingWithdrawQueue: usdcv1WithdrawQueue,
+        multiSharesMint: usdcv1SharesMint,
+        withdrawSharesMint: solendVaultSharesMint,
+        withdrawVaultUnderlyingDepositQueue: solendVaultDepositQueue,
+        clock: anchor.web3.SYSVAR_CLOCK_PUBKEY,
+        tokenProgram: splToken.TOKEN_PROGRAM_ID,
+        lendingProgram: solendProgramId,
+        vaultProgram: v2VaultsProgramId,
+      },
+      reserveAccount: solendReserveAccount,
+      reserveLiquiditySupply: solendReserveLiquiditySupply,
+      reserveCollateralMint: solendReserveCollateralMint,
+      lendingMarketAccount: solendLendingMarketAccount,
+      derivedLendingMarketAuthority: solendDerivedLendingMarketAuthority,
+      reservePythPriceAccount: solendReservePythPriceAccount,
+      reserveSwitchboardPriceAccount: solendReserveSwitchboardPriceAccount,
+      systemProgram: anchor.web3.SystemProgram.programId,
+    }).signers().rpc();
+  })
+  it("withdraws multi deposit vault through solend", async() => {
+    let tx = await program.methods.withdrawMultiDepositVaultThroughTulip(new anchor.BN(0)).accounts({
+      commonData: {
+        authority: provider.wallet.publicKey,
+        multiVault: usdcv1Vault,
+        multiVaultPda: usdcv1VaultPda,
+        withdrawVault: tulipVault,
+        withdrawVaultPda: tulipVaultPda,
+        platformInformation: tulipVaultPlatformInformation,
+        platformConfigData: tulipVaultPlatformConfigDataAccount,
+        multiBurningSharesTokenAccount: yourSharesTokenAccount,
+        withdrawBurningSharesTokenAccount: usdcv1TulipVaultSharesAccount,
+        receivingUnderlyingTokenAccount: yourUnderlyingTokenAccount,
+        multiUnderlyingWithdrawQueue: usdcv1WithdrawQueue,
+        multiSharesMint: usdcv1SharesMint,
+        withdrawSharesMint: tulipVaultSharesMint,
+        withdrawVaultUnderlyingDepositQueue: tulipVaultDepositQueue,
+        clock: anchor.web3.SYSVAR_CLOCK_PUBKEY,
+        tokenProgram: splToken.TOKEN_PROGRAM_ID,
+        lendingProgram: tulipProgramId,
+        vaultProgram: v2VaultsProgramId,
+      },
+      reserveAccount: tulipReserveAccount,
+      reserveLiquiditySupply: tulipReserveLiquiditySupply,
+      reserveCollateralMint: tulipReserveCollateralMint,
+      lendingMarketAccount: tulipLendingMarketAccount,
+      derivedLendingMarketAuthority: tulipDerivedLendingMarketAuthority,
+      reservePythPriceAccount: tulipReservePythPriceAccount,
       systemProgram: anchor.web3.SystemProgram.programId,
     }).signers().rpc();
   })

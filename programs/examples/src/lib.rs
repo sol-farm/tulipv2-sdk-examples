@@ -1,20 +1,20 @@
 use anchor_lang::prelude::*;
 use anchor_spl::token::{Mint, TokenAccount};
-use vaults::instructions::{new_withdraw_multi_deposit_optimizer_vault_ix, new_withdraw_deposit_tracking_ix, new_register_deposit_tracking_account_ix, new_issue_shares_ix};
-
+use tulipv2_sdk_vaults::instructions::{new_withdraw_multi_deposit_optimizer_vault_ix, new_withdraw_deposit_tracking_ix, new_register_deposit_tracking_account_ix, new_issue_shares_ix};
+use tulipv2_sdk_common::msg_panic;
 
 declare_id!("Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS");
 
 #[program]
 pub mod examples {
-    use common::msg_panic;
+
 
     use super::*;
     pub fn register_deposit_tracking_account(
         ctx: Context<RegisterDepositTrackingAccount>,
     ) -> Result<()> {
         let farm_key = {
-            let loader: AccountLoader<vaults::accounts::multi_optimizer::MultiDepositOptimizerV1> = AccountLoader::try_from_unchecked(
+            let loader: AccountLoader<tulipv2_sdk_vaults::accounts::multi_optimizer::MultiDepositOptimizerV1> = AccountLoader::try_from_unchecked(
                 &ctx.accounts.vault_program.key(),
                 &ctx.accounts.vault,
             )?;
@@ -23,7 +23,7 @@ pub mod examples {
                 vault.base.farm
             }
         };
-        let got_tracking = vaults::accounts::derive_tracking_address(
+        let got_tracking = tulipv2_sdk_vaults::accounts::derive_tracking_address(
             ctx.accounts.vault.key,
             ctx.accounts.authority.key,
             ctx.accounts.vault_program.key,
@@ -31,7 +31,7 @@ pub mod examples {
         if ctx.accounts.deposit_tracking_account.key().ne(&got_tracking) {
             msg_panic!("invalid deposit tracking account. got {}, want {}", got_tracking, ctx.accounts.deposit_tracking_account.key());
         }
-        let got_pda = vaults::accounts::derive_tracking_pda_address(
+        let got_pda = tulipv2_sdk_vaults::accounts::derive_tracking_pda_address(
             &got_tracking,
             ctx.accounts.vault_program.key,
         ).0;
@@ -93,7 +93,7 @@ pub mod examples {
     /// so that you can measure your accrued rewards automatically.
     pub fn issue_shares(ctx: Context<IssueShares>, amount: u64) -> Result<()> {
         let farm_key = {
-            let loader: AccountLoader<vaults::accounts::multi_optimizer::MultiDepositOptimizerV1> = AccountLoader::try_from_unchecked(
+            let loader: AccountLoader<tulipv2_sdk_vaults::accounts::multi_optimizer::MultiDepositOptimizerV1> = AccountLoader::try_from_unchecked(
                 &ctx.accounts.vault_program.key(),
                 &ctx.accounts.vault,
             )?;
@@ -142,7 +142,7 @@ pub mod examples {
     /// tracking account
     pub fn withdraw_deposit_tracking(ctx: Context<WithdrawDepositTrackingAccount>, amount: u64) -> Result<()> {
         let farm_key = {
-            let loader: AccountLoader<vaults::accounts::multi_optimizer::MultiDepositOptimizerV1> = AccountLoader::try_from_unchecked(
+            let loader: AccountLoader<tulipv2_sdk_vaults::accounts::multi_optimizer::MultiDepositOptimizerV1> = AccountLoader::try_from_unchecked(
                 &ctx.accounts.vault_program.key(),
                 &ctx.accounts.vault,
             )?;
@@ -254,8 +254,8 @@ pub mod examples {
             AccountMeta::new(ctx.accounts.reserve_liquidity_supply.key(), false),
             AccountMeta::new_readonly(ctx.accounts.reserve_collateral_mint.key(), false),
             AccountMeta::new_readonly(ctx.accounts.lending_market_account.key(), false),
-            AccountMeta::new(ctx.accounts.derived_lending_market_authority.key(), false),
-            AccountMeta::new(ctx.accounts.reserve_pyth_price_account.key(), false),
+            AccountMeta::new_readonly(ctx.accounts.derived_lending_market_authority.key(), false),
+            AccountMeta::new_readonly(ctx.accounts.reserve_pyth_price_account.key(), false),
             AccountMeta::new_readonly(ctx.accounts.reserve_switchboard_price_account.key(), false),
         ];
         let ix = new_withdraw_multi_deposit_optimizer_vault_ix(
@@ -283,6 +283,8 @@ pub mod examples {
                 ctx.accounts.common_data.authority.clone(),
                 ctx.accounts.common_data.multi_vault.clone(),
                 ctx.accounts.common_data.multi_vault_pda.clone(),
+                ctx.accounts.common_data.withdraw_vault.clone(),
+                ctx.accounts.common_data.withdraw_vault_pda.clone(),
                 ctx.accounts.common_data.platform_information.clone(),
                 ctx.accounts.common_data.platform_config_data.clone(),
                 ctx.accounts.common_data.lending_program.clone(),
@@ -300,6 +302,7 @@ pub mod examples {
                 ctx.accounts.derived_lending_market_authority.clone(),
                 ctx.accounts.reserve_pyth_price_account.to_account_info(),
                 ctx.accounts.reserve_switchboard_price_account.clone(),
+                ctx.accounts.common_data.clock.to_account_info(),
             ],
         )?;
         Ok(())
@@ -315,8 +318,8 @@ pub mod examples {
             AccountMeta::new(ctx.accounts.reserve_liquidity_supply.key(), false),
             AccountMeta::new_readonly(ctx.accounts.reserve_collateral_mint.key(), false),
             AccountMeta::new_readonly(ctx.accounts.lending_market_account.key(), false),
-            AccountMeta::new(ctx.accounts.derived_lending_market_authority.key(), false),
-            AccountMeta::new(ctx.accounts.reserve_pyth_price_account.key(), false),
+            AccountMeta::new_readonly(ctx.accounts.derived_lending_market_authority.key(), false),
+            AccountMeta::new_readonly(ctx.accounts.reserve_pyth_price_account.key(), false),
         ];
         let ix = new_withdraw_multi_deposit_optimizer_vault_ix(
             ctx.accounts.common_data.authority.key(),
@@ -343,6 +346,8 @@ pub mod examples {
                 ctx.accounts.common_data.authority.clone(),
                 ctx.accounts.common_data.multi_vault.clone(),
                 ctx.accounts.common_data.multi_vault_pda.clone(),
+                ctx.accounts.common_data.withdraw_vault.clone(),
+                ctx.accounts.common_data.withdraw_vault_pda.clone(),
                 ctx.accounts.common_data.platform_information.clone(),
                 ctx.accounts.common_data.platform_config_data.clone(),
                 ctx.accounts.common_data.lending_program.clone(),
@@ -359,6 +364,7 @@ pub mod examples {
                 ctx.accounts.lending_market_account.clone(),
                 ctx.accounts.derived_lending_market_authority.clone(),
                 ctx.accounts.reserve_pyth_price_account.to_account_info(),
+                ctx.accounts.common_data.clock.to_account_info(),
             ],
         )?;
         Ok(())
