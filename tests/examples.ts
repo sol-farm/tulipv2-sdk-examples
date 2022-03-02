@@ -35,6 +35,7 @@ describe('examples', () => {
   let depositTrackingHoldAccount: anchor.web3.PublicKey;
   
   let yourUnderlyingTokenAccount: anchor.web3.PublicKey;
+  let yourSharesTokenAccount: anchor.web3.PublicKey;
 
   it('registers deposit tracking account', async () => {
     console.log("progrmaId ", programId)
@@ -85,6 +86,11 @@ describe('examples', () => {
       provider.wallet.publicKey,
       usdcTokenMint,
     );
+    yourSharesTokenAccount = await createAssociatedTokenAccount(
+      provider,
+      provider.wallet.publicKey,
+      usdcv1SharesMint,
+    )
     let tx = await program.methods.issueShares(new anchor.BN(0)).accounts({
         authority: provider.wallet.publicKey,
         vault: usdcv1Vault,
@@ -98,6 +104,20 @@ describe('examples', () => {
         systemProgram: anchor.web3.SystemProgram.programId,
         vaultProgram: v2VaultsProgramId,
         tokenProgram: splToken.TOKEN_PROGRAM_ID,
+    }).signers().rpc();
+  })
+  it("withdraws from deposit tracking account", async () => {
+    let tx = await program.methods.withdrawDepositTracking(new anchor.BN(0)).accounts({
+      authority: provider.wallet.publicKey,
+      depositTrackingAccount,
+      depositTrackingPda,
+      depositTrackingHoldAccount,
+      receivingSharesAccount: yourSharesTokenAccount,
+      sharesMint: usdcv1SharesMint,
+      vault: usdcv1Vault,
+      clock: anchor.web3.SYSVAR_CLOCK_PUBKEY,
+      vaultProgram: v2VaultsProgramId,
+      tokenProgram: splToken.TOKEN_PROGRAM_ID,
     }).signers().rpc();
   })
 });

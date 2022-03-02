@@ -18,6 +18,6 @@ default = []
 [dependencies]
 anchor-lang = "0.22.0"
 anchor-spl = "0.22.0"
-vaults = {git = "https://github.com/sol-farm/tulipv2-sdk.git", rev = "1830d4afa41e1aab638a93b8ac67ae348c424e6a"}
-common = {git = "https://github.com/sol-farm/tulipv2-sdk.git", rev = "1830d4afa41e1aab638a93b8ac67ae348c424e6a"}
+vaults = {git = "https://github.com/sol-farm/tulipv2-sdk.git", rev = "cca1daa7d98bd661dc9d398dc72bb9dcf3208c66"}
+common = {git = "https://github.com/sol-farm/tulipv2-sdk.git", rev = "cca1daa7d98bd661dc9d398dc72bb9dcf3208c66"}
 spl-associated-token-account = "1.0.3"

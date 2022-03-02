@@ -415,7 +415,7 @@ checksum = "baf1de4339761588bc0619e3cbc0120ee582ebb74b53b4efbf79117bd2da40fd"
 [[package]]
 name = "common"
 version = "0.1.0"
-source = "git+https://github.com/sol-farm/tulipv2-sdk.git?rev=1830d4afa41e1aab638a93b8ac67ae348c424e6a#1830d4afa41e1aab638a93b8ac67ae348c424e6a"
+source = "git+https://github.com/sol-farm/tulipv2-sdk.git?rev=cca1daa7d98bd661dc9d398dc72bb9dcf3208c66#cca1daa7d98bd661dc9d398dc72bb9dcf3208c66"
 dependencies = [
  "anchor-lang",
  "anchor-spl",
@@ -577,7 +577,7 @@ dependencies = [
 [[package]]
 name = "farms"
 version = "0.1.0"
-source = "git+https://github.com/sol-farm/tulipv2-sdk.git?rev=1830d4afa41e1aab638a93b8ac67ae348c424e6a#1830d4afa41e1aab638a93b8ac67ae348c424e6a"
+source = "git+https://github.com/sol-farm/tulipv2-sdk.git?rev=cca1daa7d98bd661dc9d398dc72bb9dcf3208c66#cca1daa7d98bd661dc9d398dc72bb9dcf3208c66"
 dependencies = [
  "anchor-lang",
  "arrform",
@@ -1380,7 +1380,7 @@ checksum = "8ccb82d61f80a663efe1f787a51b16b5a51e3314d6ac365b08639f52387b33f3"
 [[package]]
 name = "vaults"
 version = "0.1.0"
-source = "git+https://github.com/sol-farm/tulipv2-sdk.git?rev=1830d4afa41e1aab638a93b8ac67ae348c424e6a#1830d4afa41e1aab638a93b8ac67ae348c424e6a"
+source = "git+https://github.com/sol-farm/tulipv2-sdk.git?rev=cca1daa7d98bd661dc9d398dc72bb9dcf3208c66#cca1daa7d98bd661dc9d398dc72bb9dcf3208c66"
 dependencies = [
  "anchor-lang",
  "anchor-spl",
