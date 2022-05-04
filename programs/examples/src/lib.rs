@@ -2,27 +2,16 @@ use anchor_lang::prelude::*;
 use anchor_spl::token::{Mint, TokenAccount};
 use tulipv2_sdk_vaults::instructions::{new_withdraw_multi_deposit_optimizer_vault_ix, new_withdraw_deposit_tracking_ix, new_register_deposit_tracking_account_ix, new_issue_shares_ix};
 use tulipv2_sdk_common::msg_panic;
-
+use tulipv2_sdk_farms::Farm;
 declare_id!("Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS");
 
 #[program]
 pub mod examples {
-
-
     use super::*;
     pub fn register_deposit_tracking_account(
         ctx: Context<RegisterDepositTrackingAccount>,
+        farm_type: [u64; 2]
     ) -> Result<()> {
-        let farm_key = {
-            let loader: AccountLoader<tulipv2_sdk_vaults::accounts::multi_optimizer::MultiDepositOptimizerV1> = AccountLoader::try_from_unchecked(
-                &ctx.accounts.vault_program.key(),
-                &ctx.accounts.vault,
-            )?;
-            {
-                let vault = loader.load()?;
-                vault.base.farm
-            }
-        };
         let got_tracking = tulipv2_sdk_vaults::accounts::derive_tracking_address(
             ctx.accounts.vault.key,
             ctx.accounts.authority.key,
@@ -66,7 +55,7 @@ pub mod examples {
             ctx.accounts.deposit_tracking_hold_account.key(),
             ctx.accounts.shares_mint.key(),
             ctx.accounts.deposit_tracking_pda.key(),
-            farm_key.into()
+            Farm::from(farm_type)
             );
             anchor_lang::solana_program::program::invoke(
                 &ix,
@@ -91,17 +80,7 @@ pub mod examples {
     /// use the tokenized shares elsewhere (ie friktion volts), otherwise
     /// its best to leave them within the deposit tracking account otherwise
     /// so that you can measure your accrued rewards automatically.
-    pub fn issue_shares(ctx: Context<IssueShares>, amount: u64) -> Result<()> {
-        let farm_key = {
-            let loader: AccountLoader<tulipv2_sdk_vaults::accounts::multi_optimizer::MultiDepositOptimizerV1> = AccountLoader::try_from_unchecked(
-                &ctx.accounts.vault_program.key(),
-                &ctx.accounts.vault,
-            )?;
-            {
-                let vault = loader.load()?;
-                vault.base.farm
-            }
-        };
+    pub fn issue_shares(ctx: Context<IssueShares>, amount: u64, farm_type: [u64; 2]) -> Result<()> {
         /*
             if this error is returned, it means the depositing_underlying_account
             has less tokens (X) then requested deposit amount (Y)
@@ -118,7 +97,7 @@ pub mod examples {
             ctx.accounts.shares_mint.key(),
             ctx.accounts.receiving_shares_account.key(),
             ctx.accounts.depositing_underlying_account.key(),
-            farm_key.into(),
+            Farm::from(farm_type),
             amount,
         );
         anchor_lang::solana_program::program::invoke(
@@ -140,17 +119,7 @@ pub mod examples {
     /// withdraws `amount` of shares from the deposit tracking account into the `receiving_shares_account`.
     /// these withdrawn shares still accrue rewards, the rewards accrued are no longer tracked by the deposit
     /// tracking account
-    pub fn withdraw_deposit_tracking(ctx: Context<WithdrawDepositTrackingAccount>, amount: u64) -> Result<()> {
-        let farm_key = {
-            let loader: AccountLoader<tulipv2_sdk_vaults::accounts::multi_optimizer::MultiDepositOptimizerV1> = AccountLoader::try_from_unchecked(
-                &ctx.accounts.vault_program.key(),
-                &ctx.accounts.vault,
-            )?;
-            {
-                let vault = loader.load()?;
-                vault.base.farm 
-            }
-        };
+    pub fn withdraw_deposit_tracking(ctx: Context<WithdrawDepositTrackingAccount>, amount: u64, farm_type: [u64; 2]) -> Result<()> {
         let ix = new_withdraw_deposit_tracking_ix(
             ctx.accounts.authority.key(),
             ctx.accounts.deposit_tracking_account.key(),
@@ -159,7 +128,7 @@ pub mod examples {
             ctx.accounts.receiving_shares_account.key(),
             ctx.accounts.shares_mint.key(),
             ctx.accounts.vault.key(),
-            farm_key.into(),
+            Farm::from(farm_type),
             amount,
         );
         anchor_lang::solana_program::program::invoke(

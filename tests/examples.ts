@@ -78,7 +78,7 @@ describe('examples', () => {
   const tulipDerivedLendingMarketAuthority = new anchor.web3.PublicKey("8gEGZbUfVE1poBq71VHKX9LU7ca4x8wTUyZgcbyQe51s")
   const tulipReservePythPriceAccount = new anchor.web3.PublicKey("ExzpbWgczTgd8J58BrnESndmzBkRVfc6PhFjSGiQXgAB")
   const tulipProgramId = new anchor.web3.PublicKey("4bcFeLv4nydFrsZqV5CgwCVrPhkQKsXtzfy2KyMz7ozM")
-
+  const farm_type_usdc = [ new anchor.BN(1), new anchor.BN(65537) ];
 
   let depositTrackingAccount: anchor.web3.PublicKey;
   let depositTrackingPda: anchor.web3.PublicKey;
@@ -114,7 +114,9 @@ describe('examples', () => {
     );
     const authority = provider.wallet;
     console.log("sending register deposit tracking account tx")
-    let tx = await program.methods.registerDepositTrackingAccount().accounts({
+    let tx = await program.methods.registerDepositTrackingAccount(
+        farm_type_usdc
+    ).accounts({
       authority: provider.wallet.publicKey,
       vault: usdcv1Vault,
       depositTrackingAccount,
@@ -142,7 +144,7 @@ describe('examples', () => {
       provider.wallet.publicKey,
       usdcv1SharesMint,
     )
-    let tx = await program.methods.issueShares(new anchor.BN(0)).accounts({
+    let tx = await program.methods.issueShares(new anchor.BN(0), farm_type_usdc).accounts({
         authority: provider.wallet.publicKey,
         vault: usdcv1Vault,
         depositTrackingAccount,
@@ -158,7 +160,7 @@ describe('examples', () => {
     }).signers().rpc();
   })
   it("withdraws from deposit tracking account", async () => {
-    let tx = await program.methods.withdrawDepositTracking(new anchor.BN(0)).accounts({
+    let tx = await program.methods.withdrawDepositTracking(new anchor.BN(0), farm_type_usdc).accounts({
       authority: provider.wallet.publicKey,
       depositTrackingAccount,
       depositTrackingPda,
