@@ -23,6 +23,9 @@ pub mod examples {
                 vault.base.farm
             }
         };
+
+        let conf = tulipv2_sdk_common::config::lending::usdc::multi_deposit::ProgramConfig;
+
         let got_tracking = tulipv2_sdk_vaults::accounts::derive_tracking_address(
             ctx.accounts.vault.key,
             ctx.accounts.authority.key,

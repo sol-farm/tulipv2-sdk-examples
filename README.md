@@ -6,7 +6,7 @@ Note that only the `register_deposit_tracking_account` and `issue_shares` instru
 
 # Usage
 
-Clone the repository locally, and run the following commands (requires anchor 0.22.0)
+Clone the repository locally, and run the following commands (requires anchor 0.24.2)
 
 ```shell
 $> yarn
